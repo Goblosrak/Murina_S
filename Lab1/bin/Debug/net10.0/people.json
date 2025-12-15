@@ -1,0 +1,26 @@
+﻿[
+  {
+    "FirstName": "\u0418\u0432\u0430\u043D",
+    "LastName": "\u0418\u0432\u0430\u043D\u043E\u0432",
+    "Age": 18,
+    "personId": "11111",
+    "BirthDate": "2007-05-05T00:00:00",
+    "Email": "ivan@example.com",
+    "phone": "\u002B7-900-000-00-00",
+    "FullName": "\u0418\u0432\u0430\u043D \u0418\u0432\u0430\u043D\u043E\u0432",
+    "IsAdult": true,
+    "_birthDate": "2007-05-05T00:00:00"
+  },
+  {
+    "FirstName": "\u0421\u043E\u043D\u044F",
+    "LastName": "\u041C\u0443\u0440\u0438\u043D\u0430",
+    "Age": 18,
+    "personId": "22222",
+    "BirthDate": "2007-09-06T00:00:00",
+    "Email": "sonya@example.com",
+    "phone": "\u002B7-900-777-70-07",
+    "FullName": "\u0421\u043E\u043D\u044F \u041C\u0443\u0440\u0438\u043D\u0430",
+    "IsAdult": true,
+    "_birthDate": "2007-09-06T00:00:00"
+  }
+]
