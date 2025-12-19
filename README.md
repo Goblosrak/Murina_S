@@ -17,7 +17,6 @@
 Unit тесты (Tests)
 - PersonTests.cs - тесты класса Person
 - PersonSerializerTests.cs - тесты сериализатора
-- FileResourceManagerTests.cs - тесты менеджера файлов
 
 Используемые технологии и библиотеки
 - .NET 8.0
@@ -25,13 +24,9 @@ Unit тесты (Tests)
 - MSTest для unit-тестирования
 - System.IO для работы с файлами
 
-Требования к окружению
-- .NET 8.0 SDK или новее
-- Git для контроля версий
-- IDE (Visual Studio 2022, VS Code, или JetBrains Rider)
-
 Инструкция по запуску<br>
 - Для того чтобы провести тесты выполните команду dotnet test Lab1.Tests.csproj
+
 
 
 
