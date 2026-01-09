@@ -7,8 +7,8 @@ docker-compose up -d
 
 ## Проверка работы приложения
 
-- **Swagger UI:** http://localhost:5000
-- **Health Check:** http://localhost:5000/health
+- **Swagger UI:** http://localhost:8080
+- **Health Check:** http://localhost:8080/health
 
 ## Регистрация нового пользователя
 {
@@ -50,4 +50,5 @@ docker-compose up -d
 - JWT Bearer Authentication
 - API Key Authentication
 - Health Checks
+
 
