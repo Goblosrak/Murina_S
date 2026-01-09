@@ -1,0 +1,86 @@
+services:
+  db_test:
+    image: postgres:16-alpine
+    container_name: db_test
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: test_project_db
+      POSTGRES_USER: test_project_db
+      POSTGRES_PASSWORD: test_project_db
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
+    ports:
+      - "5437:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_project_db -d test_project_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_test
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  liquibase:
+    build:
+      context: .
+      dockerfile: Dockerfile.liquibase
+    container_name: liquibase_test
+    depends_on:
+      db_test:
+        condition: service_healthy
+    volumes:
+      - ./Data/Liquibase:/liquibase/changelog
+    working_dir: /liquibase/changelog
+    command:
+      - --changeLogFile=db.changelog-master.xml
+      - --searchPath=/liquibase/changelog
+      - --url=jdbc:postgresql://db_test:5432/test_project_db
+      - --username=test_project_db
+      - --password=test_project_db
+      - --driver=org.postgresql.Driver
+      - update
+
+  webapp:
+    build: .
+    container_name: test_project_app
+    restart: unless-stopped
+    ports:
+      - "5000:80"
+      - "5001:443"
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db_test;Port=5432;Database=test_project_db;Username=test_project_db;Password=test_project_db
+      - ConnectionStrings__Redis=redis:6379
+      - Jwt__SecretKey=your-super-secret-key-change-this-in-production-minimum-32-characters-long
+    depends_on:
+      db_test:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      liquibase:
+        condition: service_completed_successfully
+    networks:
+      - default
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  default:
+    driver: bridge
